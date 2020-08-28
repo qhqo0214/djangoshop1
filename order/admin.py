@@ -11,10 +11,10 @@ def export_to_csv(modeladmin, request, queryset):
     writer = csv.writer(response)
 
     fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
-    # csv 파일 컬럼 타이틀 줄
+
     writer.writerow([field.verbose_name for field in fields])
 
-    # 실제 데이터 출력
+
     for obj in queryset:
         data_row = []
         for field in fields:
@@ -46,9 +46,9 @@ class OrderItemInline(admin.TabularInline):
     raw_id_fields = ['product']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name','email','address','postal_code','city','paid',order_detail, order_pdf,'created','updated']
+    list_display = ['id','user_name','email','address','postal_code','paid',order_detail, order_pdf,'created','updated']
     list_filter = ['paid','created','updated']
-    inlines = [OrderItemInline] # 다른 모델과 연결되어있는 경우 한페이지 표시하고 싶을 때
+    inlines = [OrderItemInline]
     actions = [export_to_csv]
 
 admin.site.register(Order, OrderAdmin)

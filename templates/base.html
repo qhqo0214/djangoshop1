@@ -38,7 +38,7 @@
             <li class="nav-item ">
             <a class="nav-link btn btn-outline-success" href="{% url 'cart:detail' %}">Cart
                 {% if cart|length > 0 %}
-                    {{ cart.get_total_price }}원 with {{cart|length}} items
+                    {{ cart.get_total_price|floatformat }}원, {{cart|length}}개
                 {% else %}
                     :Empty
                 {% endif %}

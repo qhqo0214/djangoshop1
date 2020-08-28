@@ -4,22 +4,22 @@ $(function () {
     $('.order-form').on('submit', function (e) {
         var amount = parseFloat($('.order-form input[name="amount"]').val().replace(',', ''));
         var type = $('.order-form input[name="type"]:checked').val();
-        // 폼 데이터를 기준으로 주문 생성
+
         var order_id = AjaxCreateOrder(e);
         if (order_id == false) {
             alert('주문 생성 실패\n다시 시도해주세요.');
             return false;
         }
 
-        // 결제 정보 생성
+
         var merchant_id = AjaxStoreTransaction(e, order_id, amount, type);
 
-        // 결제 정보가 만들어졌으면 iamport로 실제 결제 시도
+
         if (merchant_id !== '') {
             IMP.request_pay({
                 merchant_uid: merchant_id,
                 name: 'E-Shop product',
-                buyer_name:$('input[name="first_name"]').val()+" "+$('input[name="last_name"]').val(),
+                buyer_name:$('input[name="user_name"]').val(),
                 buyer_email:$('input[name="email"]').val(),
                 amount: amount
             }, function (rsp) {
@@ -29,7 +29,7 @@ $(function () {
                     msg += '상점 거래ID : ' + rsp.merchant_uid;
                     msg += '결제 금액 : ' + rsp.paid_amount;
                     msg += '카드 승인번호 : ' + rsp.apply_num;
-                    // 결제가 완료되었으면 비교해서 디비에 반영
+
                     ImpTransaction(e, order_id, rsp.merchant_uid, rsp.imp_uid, rsp.paid_amount);
                 } else {
                     var msg = '결제에 실패하였습니다.';
@@ -42,7 +42,7 @@ $(function () {
     });
 });
 
-// 폼 데이터를 기준으로 주문 생성
+
 function AjaxCreateOrder(e) {
     e.preventDefault();
     var order_id = '';
@@ -69,7 +69,7 @@ function AjaxCreateOrder(e) {
     return order_id;
 }
 
-// 결제 정보 생성
+
 function AjaxStoreTransaction(e, order_id, amount, type) {
     e.preventDefault();
     var merchant_id = '';
@@ -101,7 +101,7 @@ function AjaxStoreTransaction(e, order_id, amount, type) {
     return merchant_id;
 }
 
-// iamport에 결제 정보가 있는지 확인 후 결제 완료 페이지로 이동
+
 function ImpTransaction(e, order_id,merchant_id, imp_id, amount) {
     e.preventDefault();
     var request = $.ajax({

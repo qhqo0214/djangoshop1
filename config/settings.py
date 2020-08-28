@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'onlineshop',
         'USER': 'django',
-        'PASSWORD': '88242925',
+        'PASSWORD': 'dongyang',
         'HOST': 'localhost',
         'PORT': '3309',
     }
@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Internationalization

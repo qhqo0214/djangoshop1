@@ -29,15 +29,12 @@ def admin_order_detail(request, order_id):
     return render(request, 'order/admin/detail.html', {'order':order})
 
 
-
-
-# ajax로 결제 후에 보여줄 결제 완료 화면
 def order_complete(request):
     order_id = request.GET.get('order_id')
     order = Order.objects.get(id=order_id)
     return render(request,'order/created.html',{'order':order})
 
-# 결제를 위한 임포트
+
 from django.views.generic.base import View
 from django.http import JsonResponse
 
@@ -66,7 +63,7 @@ class OrderCreateAjaxView(View):
         else:
             return JsonResponse({}, status=401)
 
-# 결제 정보 생성
+
 class OrderCheckoutAjaxView(View):
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -94,7 +91,7 @@ class OrderCheckoutAjaxView(View):
         else:
             return JsonResponse({}, status=401)
 
-# 실제 결제가 이뤄진 것이 있는지 확인
+
 class OrderImpAjaxView(View):
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:

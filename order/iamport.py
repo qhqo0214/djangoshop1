@@ -2,7 +2,7 @@ import requests
 
 from django.conf import settings
 
-# iamport 에서 토큰을 얻어옴
+
 def get_token():
     access_data = {
         'imp_key': settings.IAMPORT_KEY,
@@ -10,7 +10,7 @@ def get_token():
     }
 
     url = "https://api.iamport.kr/users/getToken"
-    # requests : 특정 서버와 http통신을 하게 해주는 모듈
+
     req = requests.post(url,data=access_data)
     access_res = req.json()
 
@@ -19,7 +19,7 @@ def get_token():
     else:
         return None
 
-# 결제할 준비를 하는 함수 - iamport 에 주문번호와 금액을 미리 전송
+
 def payments_prepare(order_id,amount,*args,**kwargs):
     access_token = get_token()
     if access_token:
@@ -41,7 +41,7 @@ def payments_prepare(order_id,amount,*args,**kwargs):
         raise ValueError("토큰 오류")
 
 
-# 결제가 이루어졌음을 확인해주는 함수 - 실 결제 정보를 iamport에서 가져옴
+
 def find_transaction(order_id,*args,**kwargs):
     access_token = get_token()
     if access_token:

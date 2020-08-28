@@ -3,12 +3,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from coupon.models import Coupon
 class Order(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    user_name = models.CharField(max_length=50)
     email = models.EmailField()
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=20)
-    city = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
@@ -112,7 +110,7 @@ def order_payment_validation(sender, instance, created, *args, **kwargs):
         if not import_transaction or not local_transaction:
             raise ValueError("비정상 거래입니다.")
 
-# 결제 정보가 생성된 후에 호출할 함수를 연결해준다.
+
 from django.db.models.signals import post_save
 post_save.connect(order_payment_validation,sender=OrderTransaction)
 
